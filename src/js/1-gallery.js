@@ -1,5 +1,4 @@
 import SimpleLightbox from 'simplelightbox';
-
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const images = [
@@ -67,26 +66,26 @@ const images = [
     description: 'Lighthouse Coast Sea',
   },
 ];
-console.log(images);
-
 const gallery = document.querySelector('.gallery');
-images.forEach(image => {
-  const li = document.createElement('li');
-  const a = document.createElement('a');
-  const img = document.createElement('img');
-  li.classList.add('gallery-item');
-  img.setAttribute('src', image.preview);
-  img.setAttribute('data-source', image.original);
-  img.setAttribute('alt', image.description);
-  img.classList.add('gallery-image');
-  a.setAttribute('href', image.original);
-  a.classList.add('gallery-link');
-  a.appendChild(img);
-  li.appendChild(a);
-  gallery.appendChild(li);
-});
 
-new SimpleLightbox('.gallery a', {
+const galleryMarkup = images
+  .map(
+    ({ preview, original, description }) => `
+<li class="gallery-item">
+  <a class="gallery-link" href="${original}">
+    <img
+      class="gallery-image"
+      src="${preview}"
+      alt="${description}"
+    />
+  </a>
+</li>`
+  )
+  .join('');
+
+gallery.insertAdjacentHTML('beforeend', galleryMarkup);
+
+const lightbox = new SimpleLightbox('.gallery a', {
   captionsData: 'alt',
   captionDelay: 250,
   captionPosition: 'bottom',
